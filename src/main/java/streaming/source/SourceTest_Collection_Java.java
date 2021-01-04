@@ -1,5 +1,6 @@
 package streaming.source;
 
+import lombok.val;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
@@ -18,7 +19,10 @@ public class SourceTest_Collection_Java {
                 new SensorReading("sensor_7", 1547718202, 6.7),
                 new SensorReading("sensor_10", 1547718205, 38.1))
         );
-        sensorReadingDataStreamSource.print("sensorReadingDataStreamSource:").setParallelism(1);
+        val intDataStream = env.fromElements(1, 2, 3, 4, 100, 109);
+        // 设置并行度为1保证该stream里面的数据可以顺序输出
+        intDataStream.print("intDataStream:").setParallelism(1);
+        sensorReadingDataStreamSource.print("sensorReadingDataStreamSource:");
         env.execute("Source from Collection");
     }
 }
